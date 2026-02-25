@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,10 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@400;700&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
     <div class="cursor-glow" id="cursorGlow"></div>
     <div class="mesh-gradient"></div>
@@ -29,7 +32,8 @@
         <section id="home" class="hero">
             <div class="hero-content">
                 <h1 class="reveal">Elevate Your <span>Knowledge</span> With AI</h1>
-                <p class="reveal">Experience the world's most advanced AI-driven educational platform. Personalized, intuitive, and designed for the future.</p>
+                <p class="reveal">Experience the world's most advanced AI-driven educational platform. Personalized,
+                    intuitive, and designed for the future.</p>
                 <div class="hero-btns reveal">
                     <button class="btn-glitch">Start Learning Now</button>
                     <button class="btn-secondary">Watch Demo</button>
@@ -69,6 +73,52 @@
         <p>&copy; 2026 SMARTEDUAI. Designed by Antigravity.</p>
     </footer>
 
+    <div id="chatInterface" class="chat-overlay">
+        <div class="chat-container glass-card">
+            <div class="chat-header">
+                <div class="ai-status">
+                    <div class="status-dot"></div>
+                    <span>SMARTEDU AI <small>(Online)</small></span>
+                </div>
+                <div class="chat-actions">
+                    <button id="openSettings" class="btn-icon" title="API Settings">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
+                            <path
+                                d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />
+                        </svg>
+                    </button>
+                    <button id="closeChat" class="btn-close">&times;</button>
+                </div>
+            </div>
+            <div id="apiSettings" class="api-settings-panel glass-card hidden">
+                <h3>API Configuration</h3>
+                <p>Enter your <strong>Gemini API Key</strong> to enable live AI responses.</p>
+                <input type="password" id="apiKeyInput" placeholder="Enter API Key...">
+                <div class="settings-btns">
+                    <button id="saveApiKey" class="btn-primary">Save Key</button>
+                    <button id="cancelSettings" class="btn-secondary">Cancel</button>
+                </div>
+                <small>Get a free key from <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI
+                        Studio</a></small>
+            </div>
+            <div id="chatHistory" class="chat-history">
+                <div class="ai-message message">
+                    <p>Greetings! I am SMARTEDU AI. How can I assist you on your educational journey today?</p>
+                </div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="userInput" placeholder="Ask anything..." autocomplete="off">
+                <button id="sendMessage" class="btn-send">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script src="main.js"></script>
 </body>
+
 </html>
