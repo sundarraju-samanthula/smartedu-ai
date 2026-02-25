@@ -28,34 +28,29 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     window.addEventListener('scroll', revealOnScroll);
-    revealOnScroll(); // Initial check
+    revealOnScroll();
+    // Initial check
 
-    // API Configuration Logic
-    let GEMINI_API_KEY = localStorage.getItem('GEMINI_API_KEY') || '';
-    const apiSettings = document.getElementById('apiSettings');
-    const openSettingsBtn = document.getElementById('openSettings');
-    const cancelSettingsBtn = document.getElementById('cancelSettings');
-    const saveApiKeyBtn = document.getElementById('saveApiKey');
-    const apiKeyInput = document.getElementById('apiKeyInput');
+    // Custom ML AI Logic
+    const chatInterface = document.getElementById('chatInterface');
+    const startBtn = document.querySelector('.btn-primary');
+    const heroStartBtn = document.querySelector('.btn-glitch');
+    const closeChatBtn = document.getElementById('closeChat');
+    const sendMessageBtn = document.getElementById('sendMessage');
+    const userInput = document.getElementById('userInput');
+    const chatHistory = document.getElementById('chatHistory');
+    const API_URL = "http://localhost:8000/chat";
 
-    const toggleSettings = () => apiSettings.classList.toggle('hidden');
-
-    openSettingsBtn.addEventListener('click', toggleSettings);
-    cancelSettingsBtn.addEventListener('click', toggleSettings);
-
-    saveApiKeyBtn.addEventListener('click', () => {
-        const key = apiKeyInput.value.trim();
-        if (key) {
-            GEMINI_API_KEY = key;
-            localStorage.setItem('GEMINI_API_KEY', key);
-            toggleSettings();
-            addMessage("API Key saved! I'm now connected and ready to provide 'God Level' assistance.", 'ai');
+    const toggleChat = () => {
+        chatInterface.classList.toggle('active');
+        if (chatInterface.classList.contains('active')) {
+            userInput.focus();
         }
-    });
+    };
 
-    if (GEMINI_API_KEY) {
-        apiKeyInput.value = GEMINI_API_KEY;
-    }
+    startBtn.addEventListener('click', toggleChat);
+    heroStartBtn.addEventListener('click', toggleChat);
+    closeChatBtn.addEventListener('click', toggleChat);
 
     const addMessage = (text, sender) => {
         const messageDiv = document.createElement('div');
@@ -81,44 +76,35 @@ document.addEventListener('DOMContentLoaded', () => {
         const text = userInput.value.trim();
         if (!text) return;
 
-        if (!GEMINI_API_KEY) {
-            addMessage("Please configure your Gemini API Key in the settings (gear icon) to enable live responses.", 'ai');
-            toggleSettings();
-            return;
-        }
-
         addMessage(text, 'user');
         userInput.value = '';
 
         // Add Typing Indicator
         const typingDiv = document.createElement('div');
         typingDiv.classList.add('message', 'ai-message', 'typing');
-        typingDiv.innerHTML = `<span>Thinking</span><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>`;
+        typingDiv.innerHTML = `<span>God Level AI is thinking</span><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>`;
         chatHistory.appendChild(typingDiv);
         chatHistory.scrollTop = chatHistory.scrollHeight;
 
         try {
-            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+            const response = await fetch(API_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    contents: [{ parts: [{ text: text }] }]
-                })
+                body: JSON.stringify({ message: text })
             });
 
             const data = await response.json();
             chatHistory.removeChild(typingDiv);
 
-            if (data.candidates && data.candidates[0].content.parts[0].text) {
-                const aiResponse = data.candidates[0].content.parts[0].text;
-                addMessage(aiResponse, 'ai');
+            if (data.response) {
+                addMessage(data.response, 'ai');
             } else {
-                throw new Error("Invalid API Response");
+                throw new Error("Invalid Server Response");
             }
         } catch (error) {
             chatHistory.removeChild(typingDiv);
-            addMessage("Error connecting to Gemini API. Please check your key and network connection.", 'ai');
-            console.error(error);
+            addMessage("I am currently offline. Please ensure the SMARTEDU ML Backend is running locally.", 'ai');
+            console.error("Backend Error:", error);
         }
     };
 
